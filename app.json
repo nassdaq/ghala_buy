@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "name": "Ghala Buy",
+    "slug": "ghala_buy",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/ios-light.png",
+    "scheme": "ghalabuy",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "africa.neurotech.ghala-buy",
+      "backgroundColor": "#000000"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/splash-icon-dark.png",
+        "backgroundColor": "#025759"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "africa.neurotech.ghala_buy"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon-dark.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#025759"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "4b9c9779-ab04-4d75-a5a8-18399fa291c7"
+      }
+    }
+  }
+}
