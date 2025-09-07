@@ -9,9 +9,9 @@ type AppMessageProps = {
 };
 
 const COLORS = {
-  error: '#ed6e6eff',
-  info: '#76b4edff',
-  success: '#9dec76ff',
+  error: '#ed6e6e28',
+  info: '#76b3ed28',
+  success: '#9dec7628',
 };
 
 export default function AppMessage({ type = 'info', message, visible, onClose }: AppMessageProps) {
