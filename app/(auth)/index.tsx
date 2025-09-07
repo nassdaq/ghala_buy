@@ -7,12 +7,161 @@ import axios from 'axios';
 import { countryCodes } from 'react-native-country-codes-picker';
 import { Modal, FlatList, Pressable } from 'react-native';
 import React ,{ useEffect, useState } from 'react';
+import { useTheme } from '../../hooks/useTheme';
 import AppMessage from '../../components/AppMessage';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function AuthScreen() {
-  const [name, setName] = useState('');
+  const colors = useTheme();
   const [phone, setPhone] = useState('');
+  const [name, setName] = useState('');
+
+  // Move StyleSheet inside the component to access colors
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      padding: 24,
+      backgroundColor: colors.background,
+    },
+    title: {
+      fontSize: 28,
+      fontWeight: 'normal',
+      marginBottom: 40,
+      textAlign: 'center',
+      color: colors.text,
+    },
+    label: {
+      fontSize: 16,
+      marginBottom: 8,
+      marginTop: 16,
+    },
+    row: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 16,
+    },
+    countryPicker: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderTopWidth: 1,
+      borderBottomWidth: 1,
+      borderColor: colors.border,
+      padding: 9,
+      marginRight: 8,
+      minWidth: 80,
+    },
+    flag: {
+      fontSize: 22,
+      marginRight: 4,
+    },
+    dialCode: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: colors.text,
+    },
+    inputname: {
+      borderTopWidth: 1,
+      borderColor: colors.border,
+      padding: 12,
+      fontSize: 16,
+      marginBottom: 16,
+      color: colors.text,
+  
+    },
+    input: {
+      borderTopWidth: 1,
+      borderBottomWidth: 1,
+      borderColor: colors.border,
+      padding: 12,
+      fontSize: 16,
+      flex: 1,
+      color: colors.text,
+    
+    },
+    phoneInput: {
+      marginLeft: 0,
+    },
+    button: {
+      marginTop: '80%',
+      backgroundColor: colors.buttonBg,
+      borderRadius: 8,
+      overflow: 'hidden',
+      width: '40%',
+      alignSelf: 'center',
+    },
+    countryButton: {
+      backgroundColor: colors.buttonBg,
+      borderRadius: 8,
+      overflow: 'hidden',
+      width: '40%',
+      alignSelf: 'center',
+    },
+    
+    buttonText: {
+      color: colors.buttonText,
+      fontSize: 18,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      padding: 12,
+    },
+    otpRow: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: 24,
+      marginTop: 16,
+    },
+    otpBox: {
+      width: 40,
+      height: 48,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 8,
+      marginHorizontal: 4,
+      fontSize: 24,
+      textAlign: 'center',
+      backgroundColor: colors.inputBg,
+      color: colors.text,
+    },
+    otpButton: {
+      marginLeft: 12,
+      backgroundColor: colors.buttonBg,
+      borderRadius: 8,
+      paddingVertical: 12,
+      paddingHorizontal: 18,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    otpHeader: {
+      marginTop: 16,
+      marginBottom: 8,
+      alignItems: 'flex-start',
+    },
+    otpBackText: {
+      color: colors.text,
+      fontSize: 28,
+      fontWeight: 'normal',
+      paddingVertical: 0,
+      paddingHorizontal: 0,
+    },
+    otpHeaderBar: {
+      height: 56,
+      backgroundColor: colors.background,
+      justifyContent: 'center',
+      paddingHorizontal: 16,
+      marginBottom: 12,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    otpHeaderTouchable: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      flex: 1,
+      height: '100%',
+      marginBottom: '40%'
+    },
+  });
   const [otp, setOtp] = useState('');
   const [userId, setUserId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
@@ -150,7 +299,7 @@ export default function AuthScreen() {
           value={name}
           onChangeText={setName}
           autoCapitalize="words"
-          placeholderTextColor={"#0008"}
+          placeholderTextColor={colors.placeholder}
         />
 
         <View style={styles.row}>
@@ -168,7 +317,7 @@ export default function AuthScreen() {
             value={phone}
             onChangeText={setPhone}
             keyboardType="phone-pad"
-            placeholderTextColor={"#0008"}
+            placeholderTextColor={colors.placeholder}
             maxLength={15}
           />
         </View>
@@ -186,7 +335,7 @@ export default function AuthScreen() {
             alignItems: 'center'
           }}>
             <View style={{
-              backgroundColor: '#fff',
+              backgroundColor: colors.background,
               borderRadius: 12,
               padding: 20,
               minWidth: 250,
@@ -209,12 +358,15 @@ export default function AuthScreen() {
                     }}
                   >
                     <Text style={{ fontSize: 22, marginRight: 8 }}>{item.flag}</Text>
-                    <Text style={{ fontSize: 16, fontWeight: 'bold', marginRight: 8 }}>{item.dial_code}</Text>
-                    <Text style={{ fontSize: 16 }}>{item.name['en'] || Object.values(item.name)[0] || ''}</Text>
+                    <Text style={{ fontSize: 16, color: colors.text,fontWeight:'normal', marginRight: 8 }}>{item.dial_code}</Text>
+                    <Text style={{ fontSize: 16, color: colors.text,fontWeight:'normal' }}>{item.name['en'] || Object.values(item.name)[0] || ''}</Text>
                   </Pressable>
                 )}
               />
-              <Button title="Cancel" onPress={() => setShowPicker(false)} />
+
+              <TouchableOpacity style={styles.countryButton} onPress={() => setShowPicker(false)}>
+                <Text style={styles.buttonText}>Cancel</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </Modal>
@@ -234,12 +386,12 @@ export default function AuthScreen() {
           visible={msgVisible}
           onClose={() => setMsgVisible(false)}
         />
-        <View style={styles.otpHeader}>
-          <TouchableOpacity onPress={() => setStep('input')}>
-            <Text style={styles.otpBackText}>← Return to enter details</Text>
+        {/* Prominent header bar with back action */}
+        <View style={styles.otpHeaderBar}>
+          <TouchableOpacity style={styles.otpHeaderTouchable} onPress={() => setStep('input')} activeOpacity={0.7}>
+            <Text style={styles.otpBackText}>← Enter OTP </Text>
           </TouchableOpacity>
         </View>
-        <Text style={styles.title}>Enter OTP</Text>
         <View style={styles.otpRow}>
           {Array.from({ length: 6 }).map((_, i) => (
             <TextInput
@@ -265,135 +417,14 @@ export default function AuthScreen() {
               }}
               textAlign="center"
               autoFocus={i === 0}
-              returnKeyType={i === 5 ? 'done' : 'next'}
+              
             />
           ))}
-  
-        </View>       
-        <TouchableOpacity style={styles.otpButton} onPress={handleOtpSubmit}>
+        </View>
+        <TouchableOpacity style={styles.button} onPress={handleOtpSubmit}>
           <Text style={styles.buttonText}>Verify</Text>
         </TouchableOpacity>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 24,
-    backgroundColor: '#ffff',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'normal',
-    marginBottom: 40,
-    textAlign: 'center',
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 8,
-    marginTop: 16,
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  countryPicker: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderTopWidth: 1,
-    borderColor: '#31A71B',
-    padding: 9,
-    marginRight: 8,
-    borderBottomWidth: 1,
-    
-    minWidth: 80,
-  },
-  flag: {
-    fontSize: 22,
-    marginRight: 4,
-  },
-  dialCode: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  inputname: {
-    borderTopWidth: 1,
-    borderColor: '#31A71B',
-    padding: 12,
-    fontSize: 16,
-    marginBottom: 16,
-    color: '#000',
-  },
-  input: {
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: '#31A71B',
-    padding: 12,
-    fontSize: 16,
-    flex: 1,
-  },
-  phoneInput: {
-    marginLeft: 0,
-  },
-  button: {
-    marginTop: '80%',
-    backgroundColor: '#31A71B',
-    color: '#0000',
-    borderRadius: 8,
-    overflow: 'hidden',
-    width: '40%',
-    alignSelf: 'center',
-  },
-  buttonText: {
-    color: '#000',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    padding: 12,
-  },
-  otpRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 24,
-    marginTop: 16,
-  },
-  otpBox: {
-    width: 40,
-    height: 48,
-    borderWidth: 1,
-    borderColor: '#31A71B',
-    borderRadius: 8,
-    marginHorizontal: 4,
-    fontSize: 24,
-    textAlign: 'center',
-    backgroundColor: '#fff',
-    color: '#000',
-  },
-  otpButton: {
-    marginTop: '80%',
-    backgroundColor: '#31A71B',
-    color: '#0000',
-    borderRadius: 8,
-    overflow: 'hidden',
-    width: '40%',
-    alignSelf: 'center',
-  },
-  otpHeader: {
-    marginTop: 16,
-    marginBottom: 8,
-    alignItems: 'flex-start',
-  },
-  otpBackText: {
-    color: '#1890ff',
-    fontSize: 16,
-    fontWeight: 'bold',
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-  },
-});
